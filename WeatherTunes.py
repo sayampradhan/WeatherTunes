@@ -41,19 +41,9 @@ if location:
                             spotify_url = recommended_song["url"]
 
                             st.markdown(f"**Recommended Song:** {track_name}")
-
-                            # Custom Spotify-like banner
-                            st.markdown(
-                                f"""
-                                <div style="background-color:#1DB954;padding:15px;border-radius:10px;">
-                                    <h3 style="color:white;text-align:center;">🎵 Listen to this song on Spotify 🎵</h3>
-                                    <a href="{spotify_url}" style="display:block;text-align:center;color:white;text-decoration:none;font-weight:bold;">
-                                        {track_name}
-                                    </a>
-                                </div>
-                                """,
-                                unsafe_allow_html=True
-                            )
+                            # st.markdown(, unsafe_allow_html=True)
+                            st.markdown(f"<img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/232px-Spotify_icon.svg.png\" width=20>   [Listen to this song on Spotify]({spotify_url})", unsafe_allow_html=True) 
+                            # st.markdown()
 
                             # Additional Media Player Example (optional)
                             st_player(url=spotify_url)
@@ -67,4 +57,6 @@ if location:
     else:
         st.error("Failed to get location data. Ensure location services are enabled.")
 else:
-    st.error("Location could not be determined. Please ensure location services are enabled.")
+    st.error(
+        "Location could not be determined. Please ensure location services are enabled."
+    )
