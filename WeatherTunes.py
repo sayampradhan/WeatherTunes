@@ -42,6 +42,7 @@ if location:
 
                             st.markdown(f"**Recommended Song:** {track_name}")
                             st.markdown(f"[Listen to this song on Spotify]({spotify_url})")
+                            st.markdown('<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/232px-Spotify_icon.svg.png" width=20>Play: '+url,unsafe_allow_html=True)
 
                             # Additional Media Player Example (optional)
                             st_player(url=spotify_url)
