@@ -4,8 +4,10 @@ import random
 import pandas as pd
 
 # Initialize Spotify API with client credentials
-client_credentials_manager = SpotifyClientCredentials(client_id='fbe0872020b147bb9184bbeb34c0026e', client_secret='3c370a4df64f4a23ab343d6fabacf184')
+client_credentials_manager = SpotifyClientCredentials(
+    client_id='fbe0872020b147bb9184bbeb34c0026e', client_secret='3c370a4df64f4a23ab343d6fabacf184')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
 
 def load_data(dataset_path="spotify_weather_data.csv"):
     """
@@ -22,6 +24,7 @@ def load_data(dataset_path="spotify_weather_data.csv"):
     weathers = pd.unique(df['Weather'])
     return df, weathers
 
+
 def get_weather(weathers):
     """
     Return the weather inputted by the user (or another function).
@@ -32,8 +35,10 @@ def get_weather(weathers):
     Returns:
     - weather: String representing the weather selected by the user.
     """
-    weather = input(f"Enter the weather from the options {', '.join(weathers)}: ")
+    weather = input(f"Enter the weather from the options {
+                    ', '.join(weathers)}: ")
     return weather
+
 
 def song(weather, weathers, df):
     """
@@ -63,6 +68,7 @@ def song(weather, weathers, df):
             else:
                 return {"error": f"Song '{track_name}' not found on Spotify."}
 
+
 if __name__ == '__main__':
     df, weathers = load_data()
     weather = get_weather(weathers)
@@ -70,4 +76,5 @@ if __name__ == '__main__':
     if "error" in result:
         print(result["error"])
     else:
-        print(f"Random song for {weather}: {result['name']} (Spotify URL: {result['url']})")
+        print(f"Random song for {weather}: {
+              result['name']} (Spotify URL: {result['url']})")

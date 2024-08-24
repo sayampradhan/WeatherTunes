@@ -1,49 +1,60 @@
-import song as sm
 import streamlit as st
+import song as sm
 from streamlit_player import st_player
-from streamlit_elements import media
+from streamlit_geolocation import streamlit_geolocation
+from weather_data import get_city, get_weather_data
 
-# Set the title of the Streamlit app
+# Set the title of the Streamlit app (must be the first Streamlit command)
 st.set_page_config(page_title="WeatherTunes", page_icon=":musical_note:")
 st.title("WeatherTunes")
 
-# Add some spacing and instructions
-st.markdown("""
-    <style>
-        .stForm {padding: 2rem; border-radius: 8px; border: 1px solid #e0e0e0;}
-        .stForm div {margin-bottom: 1rem;}
-    </style>
-    """, unsafe_allow_html=True)
+# Get the user's location using streamlit_geolocation
+location = streamlit_geolocation()
 
-st.markdown("Select a weather condition to get a song recommendation based on it. Your track will be found on Spotify.")
+if location:
+    lon = location.get('longitude')
+    lat = location.get('latitude')
 
-with st.form('weather_based_song'):
-    # Load the dataset and available weather conditions
-    data, weather_conditions = sm.load_data()
+    if lon and lat:
+        city = get_city(lat, lon)
+        if city:
+            st.write(f"Detected city: {city}")
+            weather = get_weather_data(city)
 
-    # Check if data loaded successfully
-    if data is None or weather_conditions is None:
-        st.error("Failed to load data. Please check the dataset path or file.")
-    else:
-        # Create a dropdown menu for selecting the weather condition
-        selected_weather = st.selectbox("Select Weather Condition", weather_conditions)
+            if weather:
+                sky = weather
+                st.write(f"Sky condition: {sky}")
 
-        # Add a submit button to the form
-        submit_button = st.form_submit_button("Get Recommendation")
+                # Automatically generate a song recommendation based on the sky condition
+                data, weather_conditions = sm.load_data()
 
-        # Get a song recommendation based on the selected weather when the form is submitted
-        if submit_button:
-            recommended_song = sm.song(selected_weather, weather_conditions, data)
+                if data is None or weather_conditions is None:
+                    st.error("Failed to load data. Please check the dataset path or file.")
+                else:
+                    if sky in weather_conditions:
+                        recommended_song = sm.song(sky, weather_conditions, data)
 
-            if "error" in recommended_song:
-                st.error(recommended_song["error"])
+                        if "error" in recommended_song:
+                            st.error(recommended_song["error"])
+                        else:
+                            track_name = recommended_song["name"]
+                            spotify_url = recommended_song["url"]
+
+                            st.markdown(f"**Recommended Song:** {track_name}")
+                            st.markdown(f"[Listen to this song on Spotify]({spotify_url})")
+
+                            # Additional Media Player Example (optional)
+                            st_player(url=spotify_url)
+                    else:
+                        st.error(f"No song recommendations available for the sky condition: {sky}")
+
             else:
-                # Display the track name and provide a link to the song on Spotify
-                track_name = recommended_song["name"]
-                spotify_url = recommended_song["url"]
-
-                st.markdown(f"**Recommended Song:** {track_name}")
-                st.markdown(f"[Listen to this song on Spotify]({spotify_url})")
-
-                # Additional Media Player Example (optional)
-                st_player(url=spotify_url)
+                st.error("Failed to retrieve weather data.")
+        else:
+            st.error("Failed to retrieve city name from coordinates.")
+    else:
+        st.error("Failed to get location data. Ensure location services are enabled.")
+else:
+    st.error(
+        "Location could not be determined. Please ensure location services are enabled."
+    )
