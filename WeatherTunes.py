@@ -1,6 +1,5 @@
 import streamlit as st
 import song as sm
-from streamlit_player import st_player
 from streamlit_geolocation import streamlit_geolocation
 from weather_data import get_city, get_weather_data
 
@@ -45,8 +44,6 @@ if location:
                             st.markdown(f"<img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/232px-Spotify_icon.svg.png\" width=20>   [Listen to this song on Spotify]({spotify_url})", unsafe_allow_html=True) 
                             # st.markdown()
 
-                            # Additional Media Player Example (optional)
-                            st_player(url=spotify_url)
                     else:
                         st.error(f"No song recommendations available for the sky condition: {sky}")
 
