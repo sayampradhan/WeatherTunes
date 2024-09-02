@@ -58,7 +58,10 @@ else:
         "Location could not be determined. Please ensure location services are enabled."
     )
 
-footer_html = """<div style='text-align: center;'>
+footer_html = """
+<div style='text-align: center;'>
   <p>Developed with ❤️ by Sayam</p>
-</div>"""
+  <p><a href='https://github.com/sayampradhan/SiddhiGPT/tree/main' target='_blank'>View on GitHub</a></p>
+</div>
+"""
 st.markdown(footer_html, unsafe_allow_html=True)
