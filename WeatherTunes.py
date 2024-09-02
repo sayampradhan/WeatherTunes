@@ -57,3 +57,8 @@ else:
     st.error(
         "Location could not be determined. Please ensure location services are enabled."
     )
+
+footer_html = """<div style='text-align: center;'>
+  <p>Developed with ❤️ by Sayam</p>
+</div>"""
+st.markdown(footer_html, unsafe_allow_html=True)
