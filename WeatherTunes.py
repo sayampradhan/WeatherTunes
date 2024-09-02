@@ -61,7 +61,7 @@ else:
 footer_html = """
 <div style='text-align: center;'>
   <p>Developed with ❤️ by Sayam</p>
-  <p><a href='https://github.com/sayampradhan/SiddhiGPT/tree/main' target='_blank'>View on GitHub</a></p>
+  <p><a href='https://github.com/sayampradhan/WeatherTunes/tree/main' target='_blank'>View on GitHub</a></p>
 </div>
 """
 st.markdown(footer_html, unsafe_allow_html=True)
